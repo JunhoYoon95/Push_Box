@@ -8,6 +8,12 @@ using namespace std;
 #define ROWS 10
 #define COLS 10
 
+#define BLOCKS 1
+#define BOX 2
+#define HOLE 3
+#define PLAYER 4
+
+
 int main()
 {
 	WINDOW *win1;
@@ -22,6 +28,10 @@ int main()
 
 	start_color();
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
+	init_pair(2, COLOR_YELLOW, COLOR_WHITE);
+	init_pair(3, COLOR_RED, COLOR_WHITE);
+	init_pair(4, COLOR_BLUE, COLOR_WHITE);
+
 	wattron(win1,COLOR_PAIR(1));
 	cbreak();
 	keypad(stdscr, TRUE);
@@ -50,6 +60,7 @@ int main()
 					// 박스가 있으면 박스 출력
 					for (int i=0; i<pushBoxGame.numOfBox; i++){
 						if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
+							wattron(win1, COLOR_PAIR(3)); //add
 							wprintw(win1,"\u26BF ");//박스
 							b = true;
 							break;
@@ -58,11 +69,26 @@ int main()
 					// 맵 출력
 					if (!b)
 					{
-						if(pushBoxGame.map[r][c]==0) wprintw(win1,"\u26DA ");//바닥
-						if(pushBoxGame.map[r][c]==1) wprintw(win1,"\u26CB ");//벽
-						if(pushBoxGame.map[r][c]==2) wprintw(win1,"\u26BF ");//박스
-						if(pushBoxGame.map[r][c]==3) wprintw(win1,"\u26F6 ");//목적지
-						if(pushBoxGame.map[r][c]==4) wprintw(win1,"\u26DD ");//바깥
+						if(pushBoxGame.map[r][c]==0){
+							wattron(win1, COLOR_PAIR(1)); //add
+							wprintw(win1,"\u26DA ");//바닥
+						}
+						if(pushBoxGame.map[r][c]==1){
+							wattron(win1, COLOR_PAIR(4)); //add
+							wprintw(win1,"\u26CB ");//벽
+						}
+						if(pushBoxGame.map[r][c]==2){
+							wattron(win1, COLOR_PAIR(3)); //add
+							wprintw(win1,"\u26BF ");//박스
+						}
+						if(pushBoxGame.map[r][c]==3){
+							wattron(win1, COLOR_PAIR(2)); //add
+							wprintw(win1,"\u26F6 ");//목적지
+						}
+						if(pushBoxGame.map[r][c]==4){
+							wattron(win1, COLOR_PAIR(1)); //add
+							wprintw(win1,"\u26DD ");//바깥
+						}
 					}
 				}
 				wprintw(win1,"\n");
