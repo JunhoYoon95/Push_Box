@@ -94,6 +94,13 @@ int main()
 					for (int c=0; c<COLS; c++){
 						bool b = false;
 
+						// 캐릭터 위치면 * 출력
+						if (pushBoxGame.point.r==r&&pushBoxGame.point.c==c) {
+							wattron(win1, COLOR_PAIR(1)); //add
+							wprintw(win1,"\u263B ");//캐릭터 스마일 원.
+							continue;
+						}
+
 						// 박스가 있으면 박스 출력
 						for (int i=0; i<pushBoxGame.numOfBox; i++){
 							if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
