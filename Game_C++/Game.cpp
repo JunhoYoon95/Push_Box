@@ -37,3 +37,10 @@ void Game::initMap(int* arr, int r, int c)
 	}
 }
 
+void Game::moveCharacter(Point d)
+{
+	point += d;
+	step++;
+}
+
+

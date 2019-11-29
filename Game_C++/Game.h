@@ -21,5 +21,6 @@ class Game {
 
 	void initMap(int* arr, int r, int c);
 	void initMap(int* arr, int r); //임시
+	void moveCharacter(Point d); //캐릭터 움직이기
 
 };

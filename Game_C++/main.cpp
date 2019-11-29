@@ -100,10 +100,6 @@ int main()
 		keypad(stdscr, TRUE);
 		noecho(); //입력한 값을 보이지 않도록
 
-		printw("F5 : next map ###################\n");
-		printw("F3 : reset map ##################\n");
-		printw("F10 : quit ######################\n");
-
 		refresh();
 		int lv;
 
@@ -111,7 +107,7 @@ int main()
 			next:
 			Game pushBoxGame(ROWS, COLS, INFO[lv][0] , INFO[lv][1], INFO[lv][2]);
 			pushBoxGame.initMap((int*)(MAP[lv]), ROWS, COLS);
-			// Point d(0,0);
+			Point d(0,0);
 
 			while (1){
 
@@ -169,9 +165,36 @@ int main()
 				int ch = getch();
 
 				//예약키 외 다른 키 입력 방지
-				while (ch!=KEY_F(5)&&ch!=KEY_F(10)&&ch!=KEY_F(3)) ch=getch();
+				while (ch!=KEY_LEFT&&ch!=KEY_RIGHT&&ch!=KEY_UP&&ch!=KEY_DOWN
+				&&ch!=KEY_F(5)&&ch!=KEY_F(10)&&ch!=KEY_F(3)) ch=getch();
 
-				if (ch==KEY_F(5)){//F5키를 누르면 else if
+				if (ch==KEY_LEFT){
+					win1 = newwin(20,35,6,0);
+					wbkgd(win1, COLOR_PAIR(1));
+					wattron(win1,COLOR_PAIR(1));
+					d.set(0, -1);
+				}
+				else if (ch==KEY_RIGHT){
+					win1 = newwin(20,35,6,0);
+					wbkgd(win1, COLOR_PAIR(1));
+					wattron(win1,COLOR_PAIR(1));
+					d.set(0, 1);
+				}
+				else if (ch==KEY_UP){
+					win1 = newwin(20,35,6,0);
+					wbkgd(win1, COLOR_PAIR(1));
+					wattron(win1,COLOR_PAIR(1));
+					d.set(-1, 0);
+
+				}
+				else if (ch==KEY_DOWN){
+					win1 = newwin(20,35,6,0);
+					wbkgd(win1, COLOR_PAIR(1));
+					wattron(win1,COLOR_PAIR(1));
+					d.set(1, 0);
+
+				}
+				else if (ch==KEY_F(5)){//F5키를 누르면 else if
 					if (lv==4)
 					{
 						win1 = newwin(20,35,6,0);
@@ -202,6 +225,8 @@ int main()
 					goto quit;
 				}
 
+				pushBoxGame.moveCharacter(d);
+				
 				wrefresh(win1);
 			}
 
