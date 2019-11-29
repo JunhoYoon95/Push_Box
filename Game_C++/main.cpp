@@ -3,6 +3,8 @@
 #include <iostream>
 #include <ncurses.h>
 #include <clocale>
+#include <iostream>
+#include <fstream>
 using namespace std;
 
 #define ROWS 8
@@ -202,10 +204,99 @@ int main()
 	AUTO:
 	if(mod == 0)
 	{
-		win1 = newwin(20,35,6,0); //행:20 열:35
-		wbkgd(win1, COLOR_PAIR(1));
-		wattron(win1,COLOR_PAIR(1));
-		printw("AUTO");
+		printw("###############<AUTO>############\n");
+		
+		ifstream map_txt;
+		map_txt.open("map_info.txt");
+
+		int ROWS_AUTO;
+		map_txt >> ROWS_AUTO;
+		int COLS_AUTO;
+		map_txt >> COLS_AUTO;
+		int char_pos_l;
+		map_txt >> char_pos_l;
+		int char_pos_r;
+		map_txt >> char_pos_r;
+		// wprintw(win1, "%d, %d, %d, %d", ROWS_AUTO, COLS_AUTO,char_pos_r,char_pos_l);
+
+		int map_input[ROWS_AUTO][COLS_AUTO];
+		int box_number = 0;
+		for(int i=0; i<ROWS_AUTO; i++)
+		{
+			for(int j=0; j<COLS_AUTO; j++)
+			{
+				int input;
+				map_txt >> input;
+				if( input == 2) box_number++;
+				// wprintw(win1, "%d ", input); //제대로 input 되는지 확인
+				map_input[i][j] = input;
+			}
+		}
+		map_txt.close();
+		// wprintw(win1, "%d ", box_number); // box가 몇개 존재하는지
+
+		Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_l);
+		pushBoxGame.initMap((int*)(map_input), ROWS_AUTO, COLS_AUTO);
+		// Point d(0,0);
+
+		while (1){
+			//게임 상태 출력
+			for (int r=0; r<ROWS_AUTO; r++){
+				for (int c=0; c<COLS_AUTO; c++){
+					bool b = false;
+
+					// 캐릭터 위치면 * 출력
+					if (pushBoxGame.point.r==r&&pushBoxGame.point.c==c) {
+						wattron(win1, COLOR_PAIR(1)); //add
+						wprintw(win1,"\u263B ");//캐릭터 스마일 원.
+						continue;
+					}
+
+					// 키가 있으면 키 출력
+					for (int i=0; i<pushBoxGame.numOfBox; i++){
+						if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
+							wattron(win1, COLOR_PAIR(3)); //add
+							wprintw(win1,"\u26BF ");//박스
+							b = true;
+							break;
+						}
+					}
+					// 맵 출력
+					if (!b)
+					{
+						if(pushBoxGame.map[r][c]==0){
+							wattron(win1, COLOR_PAIR(1)); //add
+							wprintw(win1,"\u26DA ");//바닥
+						}
+						if(pushBoxGame.map[r][c]==1){
+							wattron(win1, COLOR_PAIR(4)); //add
+							wprintw(win1,"\u26CB ");//벽
+						}
+						if(pushBoxGame.map[r][c]==2){
+							wattron(win1, COLOR_PAIR(3)); //add
+							wprintw(win1,"\u26BF ");//목적지
+						}
+						if(pushBoxGame.map[r][c]==3){
+							wattron(win1, COLOR_PAIR(2)); //add
+							wprintw(win1,"\u26F6 ");//키
+						}
+						if(pushBoxGame.map[r][c]==4){
+							wattron(win1, COLOR_PAIR(1)); //add
+							wprintw(win1,"\u26DD ");//바깥
+						}
+					}
+				}
+				wprintw(win1,"\n");
+			}
+			wrefresh(win1);
+			
+			while (choose!=KEY_F(10)) choose=getch();
+
+			if (choose==KEY_F(10)){//F10을 누르면
+				goto quit;
+			}
+			// wrefresh(win1);
+		}
 	}
 
 	return 0;
