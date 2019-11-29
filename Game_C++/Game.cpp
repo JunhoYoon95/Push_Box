@@ -84,3 +84,8 @@ void Game::moveBox(Point d)
 	box[i] += d;
 	push++;
 }
+
+bool Game::isFinished()
+{
+	return Game::remainingBox() == 0;
+}

@@ -109,8 +109,7 @@ int main()
 			pushBoxGame.initMap((int*)(MAP[lv]), ROWS, COLS);
 			Point d(0,0);
 
-			while (1){
-
+			while (!(pushBoxGame.isFinished())){
 				//게임 상태 출력
 				for (int r=0; r<ROWS; r++){
 					for (int c=0; c<COLS; c++){

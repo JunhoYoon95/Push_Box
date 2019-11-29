@@ -27,5 +27,6 @@ class Game {
 	bool canMoveBox(Point d); //박스 이동여부
 	void moveBox(Point d); //박스 움직이기
 	int remainingBox(); //목적지까지 남은 박스 개수
+	bool isFinished();
 
 };
