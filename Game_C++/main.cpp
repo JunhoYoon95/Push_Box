@@ -320,6 +320,11 @@ int main()
 
 			while (!(pushBoxGame.isFinished())){
 				//게임 상태 출력
+				wprintw(win1,"step : %d\n", pushBoxGame.step);
+				wprintw(win1,"push : %d\n", pushBoxGame.push);
+				wprintw(win1,"remaining box : %d\n",pushBoxGame.remainingBox());
+				wprintw(win1,"\n");
+				wrefresh(win1);
 				for (int r=0; r<ROWS_AUTO; r++){
 					for (int c=0; c<COLS_AUTO; c++){
 						bool b = false;
