@@ -225,8 +225,37 @@ int main()
 					goto quit;
 				}
 
-				pushBoxGame.moveCharacter(d);
-				
+				if (pushBoxGame.isWall(d)) {
+
+					// wprintw(win1,"can not move character\n");
+					wrefresh(win1);
+
+				}
+				//이동할 위치에 박스가 있으면
+				else if (pushBoxGame.isBox(d)) {
+					//박스를 이동할 수 있으면
+					if (pushBoxGame.canMoveBox(d)){
+						//박스와 캐릭터 이동
+						pushBoxGame.moveBox(d);
+						pushBoxGame.moveCharacter(d);
+						// wprintw(win1,"box moved\n");
+						wrefresh(win1);
+					}
+					else
+					{
+						// wprintw(win1,"can not move box\n");
+						wrefresh(win1);
+					}
+
+				}
+				else
+				{ //벽도 박스도 아니면
+					//캐릭터 이동
+					// wprintw(win1,"character moved\n");
+					pushBoxGame.moveCharacter(d);
+					wrefresh(win1);
+				}
+
 				wrefresh(win1);
 			}
 

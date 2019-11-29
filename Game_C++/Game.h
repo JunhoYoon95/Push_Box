@@ -22,5 +22,10 @@ class Game {
 	void initMap(int* arr, int r, int c);
 	void initMap(int* arr, int r); //임시
 	void moveCharacter(Point d); //캐릭터 움직이기
+	bool isWall(Point d); //벽인지 판단
+	bool isBox(Point d); //박스인지 판단
+	bool canMoveBox(Point d); //박스 이동여부
+	void moveBox(Point d); //박스 움직이기
+	int remainingBox(); //목적지까지 남은 박스 개수
 
 };
