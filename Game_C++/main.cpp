@@ -43,18 +43,42 @@ int main()
 	//사용자 입력 받기
 	int choose = getch();
 	int mod; // 0:auto, 1:manual
-	int lv; // level
+	
 	while (choose!=KEY_RIGHT && choose!=KEY_LEFT) choose=getch();
+
+	if( choose==KEY_LEFT || choose==KEY_RIGHT)
+	{
+		clear();
+		goto SET;
+	}
+
+	SET:
+	win1 = newwin(20,35,6,0); //행:20 열:35
+	curs_set(0);//커서 가렸어요
+	wbkgd(win1, COLOR_PAIR(1));
+
+	start_color();
+	init_pair(1, COLOR_BLACK, COLOR_WHITE);
+	init_pair(2, COLOR_YELLOW, COLOR_WHITE);
+	init_pair(3, COLOR_RED, COLOR_WHITE);
+	init_pair(4, COLOR_BLUE, COLOR_WHITE);
+
+	wattron(win1,COLOR_PAIR(1));
+	cbreak();
+	keypad(stdscr, TRUE);
+	noecho(); //입력한 값을 보이지 않도록
+
+	printw("F5 : next map ###################\n");
+	printw("F3 : reset map ##################\n");
+	printw("F10 : quit ######################\n");
+	
+	refresh();
 	if (choose==KEY_LEFT){
 		mod = 0;
-		// initscr();
-		refresh();
-		// delwin(win2);
 		goto AUTO;
 	}
 	else if (choose==KEY_RIGHT){
 		mod = 1;
-		clear();
 		goto MANUAL;
 	}
 
@@ -81,7 +105,7 @@ int main()
 		printw("F10 : quit ######################\n");
 
 		refresh();
-		// int lv;
+		int lv;
 
 		for (lv=0; lv<5; lv++){
 			next:
