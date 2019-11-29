@@ -45,7 +45,15 @@ void Game::moveCharacter(Point d)
 
 bool Game::isWall(Point d)
 {
-	return map[point.r+d.r][point.c+d.c] == 1;
+	if(map[point.r+d.r][point.c+d.c] == 1 
+	|| map[point.r+d.r][point.c+d.c] == 4)
+	{ 
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
