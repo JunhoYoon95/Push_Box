@@ -316,6 +316,7 @@ int main()
 			}
 			// wprintw(win1, "%d ", box_number); // box가 몇개 존재하는지
 			Algo algo((int*)(map_input));
+			auto_now:
 			Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_l);
 			pushBoxGame.initMap((int*)(map_input), ROWS_AUTO, COLS_AUTO);
 			Point d(0,0);
@@ -386,11 +387,6 @@ int main()
 				else if(direction == 'd') ch = KEY_RIGHT;
 				else ch = KEY_F(3);
 
-
-				// //예약키 외 다른 키 입력 방지
-				// while (ch!=KEY_LEFT&&ch!=KEY_RIGHT&&ch!=KEY_UP&&ch!=KEY_DOWN
-				// &&ch!=KEY_F(5)&&ch!=KEY_F(10)&&ch!=KEY_F(3)) ch=getch();
-
 				if (ch==KEY_LEFT){
 					win1 = newwin(20,35,6,0);
 					wbkgd(win1, COLOR_PAIR(1));
@@ -415,8 +411,7 @@ int main()
 					wattron(win1,COLOR_PAIR(1));
 					d.set(1, 0);
 				}
-
-				if (ch==KEY_F(5)){//F5키를 누르면 else if
+				else if (ch==KEY_F(5)){//F5키를 누르면 else if
 					if (lv == auto_lv-1)
 					{
 						win1 = newwin(20,35,6,0);
@@ -441,7 +436,7 @@ int main()
 					wbkgd(win1, COLOR_PAIR(1));
 					wattron(win1,COLOR_PAIR(1));
 					wrefresh(win1);
-					goto auto_next;
+					goto auto_now;
 				}
 				else if (ch==KEY_F(10)){//F10을 누르면
 					goto auto_quit;
@@ -467,7 +462,6 @@ int main()
 						// wprintw(win1,"can not move box\n");
 						wrefresh(win1);
 					}
-
 				}
 				else
 				{ //벽도 박스도 아니면
