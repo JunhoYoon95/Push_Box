@@ -1,13 +1,12 @@
-all:push_game
+CC = g++
+CFLAGS = -std=c++14
+TARGET = push_game
+SOURCES = main.cpp \
+          Algo.cpp \
+		  Game.cpp
+
+all:
+	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES) -lncursesw
+
 clean:
-	-rm *.o push_game
-
-push_game:Game.o main.o
-	g++ -W -Wall -o push_game Game.o main.o -lncursesw
-
-Game.o:Game.cpp
-	g++ -W -Wall -c -o Game.o Game.cpp
-
-main.o:main.cpp
-	g++ -W -Wall -c -o main.o main.cpp
-
+	rm -rf *.o $(TARGET)

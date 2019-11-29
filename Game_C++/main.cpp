@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "info.h"
-// #include "MAP.h"
+#include "Algo.h"
 #include <iostream>
 #include <ncurses.h>
 #include <clocale>
@@ -287,6 +287,7 @@ int main()
 		map_txt.open("map_info.txt");
 		int auto_lv;
 		int ROWS_AUTO, COLS_AUTO, char_pos_l, char_pos_r;
+		int map_input[ROWS][COLS];
 		map_txt >> auto_lv;
 		// wprintw(win1, "%d ", auto_lv);
 
@@ -299,7 +300,6 @@ int main()
 			map_txt >> char_pos_r;
 			// wprintw(win1, "%d, %d, %d, %d", ROWS_AUTO, COLS_AUTO,char_pos_r,char_pos_l);
 
-			int map_input[ROWS_AUTO][COLS_AUTO];
 			int box_number = 0;
 			for(int i=0; i<ROWS_AUTO; i++)
 			{
@@ -374,12 +374,15 @@ int main()
 				}
 				wrefresh(win1);
 				
-				//사용자 입력 받기
-				int ch = getch();
-
-				//예약키 외 다른 키 입력 방지
-				while (ch!=KEY_LEFT&&ch!=KEY_RIGHT&&ch!=KEY_UP&&ch!=KEY_DOWN
-				&&ch!=KEY_F(5)&&ch!=KEY_F(10)&&ch!=KEY_F(3)) ch=getch();
+				// //사용자 입력 받기
+				int ch;
+				Algo algo((int*)(map_input));
+				char direction = algo.Direction((int*)(map_input));
+				if(direction == 'w') ch = KEY_UP;
+				else if(direction == 's') ch = KEY_DOWN;
+				else if(direction == 'a') ch = KEY_LEFT;
+				else if(direction == 'd') ch = KEY_RIGHT;
+				else ch = KEY_F(3);
 
 				if (ch==KEY_LEFT){
 					win1 = newwin(20,35,6,0);
@@ -398,16 +401,15 @@ int main()
 					wbkgd(win1, COLOR_PAIR(1));
 					wattron(win1,COLOR_PAIR(1));
 					d.set(-1, 0);
-
 				}
 				else if (ch==KEY_DOWN){
 					win1 = newwin(20,35,6,0);
 					wbkgd(win1, COLOR_PAIR(1));
 					wattron(win1,COLOR_PAIR(1));
 					d.set(1, 0);
-
 				}
-				else if (ch==KEY_F(5)){//F5키를 누르면 else if
+
+				if (ch==KEY_F(5)){//F5키를 누르면 else if
 					if (lv == auto_lv-1)
 					{
 						win1 = newwin(20,35,6,0);
