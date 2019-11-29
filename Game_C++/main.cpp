@@ -5,8 +5,8 @@
 #include <clocale>
 using namespace std;
 
-#define ROWS 10
-#define COLS 10
+#define ROWS 8
+#define COLS 8
 
 #define BLOCKS 1
 #define BOX 2
