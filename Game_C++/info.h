@@ -57,7 +57,7 @@ int MAP[5][8][8] =
 int INFO[5][3] =
 {
 	//(box Number, init character row, init character col)
-	{ 1, 4, 3},
+	{ 1, 4, 4},
 	{ 3, 6, 4},
 	{ 3, 6, 4},
 	{ 6, 6, 4},
