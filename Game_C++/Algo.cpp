@@ -24,6 +24,7 @@ char Algo::Direction(int *result_map)
             map[i][j] = m;
         }
     }
+    index ++;
 
-    return 'w';
+    return stage[index];
 }

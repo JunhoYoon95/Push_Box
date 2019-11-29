@@ -6,6 +6,8 @@
 #include <clocale>
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+#include <unistd.h>
 using namespace std;
 
 #define ROWS 8
@@ -287,7 +289,7 @@ int main()
 		map_txt.open("map_info.txt");
 		int auto_lv;
 		int ROWS_AUTO, COLS_AUTO, char_pos_l, char_pos_r;
-		int map_input[ROWS][COLS];
+		// int map_input[ROWS][COLS];
 		map_txt >> auto_lv;
 		// wprintw(win1, "%d ", auto_lv);
 
@@ -299,7 +301,7 @@ int main()
 			map_txt >> char_pos_l;
 			map_txt >> char_pos_r;
 			// wprintw(win1, "%d, %d, %d, %d", ROWS_AUTO, COLS_AUTO,char_pos_r,char_pos_l);
-
+			int map_input[ROWS_AUTO][COLS_AUTO];
 			int box_number = 0;
 			for(int i=0; i<ROWS_AUTO; i++)
 			{
@@ -313,7 +315,7 @@ int main()
 				}
 			}
 			// wprintw(win1, "%d ", box_number); // box가 몇개 존재하는지
-
+			Algo algo((int*)(map_input));
 			Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_l);
 			pushBoxGame.initMap((int*)(map_input), ROWS_AUTO, COLS_AUTO);
 			Point d(0,0);
@@ -376,13 +378,18 @@ int main()
 				
 				// //사용자 입력 받기
 				int ch;
-				Algo algo((int*)(map_input));
+				usleep( 1000 * 1000 );
 				char direction = algo.Direction((int*)(map_input));
 				if(direction == 'w') ch = KEY_UP;
 				else if(direction == 's') ch = KEY_DOWN;
 				else if(direction == 'a') ch = KEY_LEFT;
 				else if(direction == 'd') ch = KEY_RIGHT;
 				else ch = KEY_F(3);
+
+
+				// //예약키 외 다른 키 입력 방지
+				// while (ch!=KEY_LEFT&&ch!=KEY_RIGHT&&ch!=KEY_UP&&ch!=KEY_DOWN
+				// &&ch!=KEY_F(5)&&ch!=KEY_F(10)&&ch!=KEY_F(3)) ch=getch();
 
 				if (ch==KEY_LEFT){
 					win1 = newwin(20,35,6,0);
