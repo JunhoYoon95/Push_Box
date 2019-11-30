@@ -12,6 +12,7 @@ class Game {
 	int col;
 	int numOfBox;
 	Point point; //character position
+	Point resetPoint; // 해당 스테이지 캐릭터 처음 position
 
 	int step; //캐릭터 이동 횟수
 	int push; //상자 이동 횟수

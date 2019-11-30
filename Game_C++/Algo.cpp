@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-Algo::Algo(int *result_map)
+Algo::Algo(int *result_map, const int pos_row, const int pos_col)
 {
     for(int i=0; i<8; i++)
     {
@@ -12,9 +12,12 @@ Algo::Algo(int *result_map)
             map[i][j] = m;
         }
     }
+
+    char_pos[0] = pos_row;
+    char_pos[1] = pos_col;
 }
 
-char Algo::Direction(int *result_map)
+char Algo::Direction(int *result_map, const int pos_row, const int pos_col)
 {
     for(int i=0; i<8; i++)
     {
@@ -26,6 +29,8 @@ char Algo::Direction(int *result_map)
     }
     if(index == 16) index = -1;
     index ++;
+    char_pos[0] = pos_row;
+    char_pos[1] = pos_col;
 
     return stage[index];
 }

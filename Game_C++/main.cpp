@@ -288,7 +288,7 @@ int main()
 		ifstream map_txt;
 		map_txt.open("map_info.txt");
 		int auto_lv;
-		int ROWS_AUTO, COLS_AUTO, char_pos_l, char_pos_r;
+		int ROWS_AUTO, COLS_AUTO, char_pos_c, char_pos_r;
 		// int map_input[ROWS][COLS];
 		map_txt >> auto_lv;
 		// wprintw(win1, "%d ", auto_lv);
@@ -298,9 +298,9 @@ int main()
 			auto_next:
 			map_txt >> ROWS_AUTO;
 			map_txt >> COLS_AUTO;
-			map_txt >> char_pos_l;
+			map_txt >> char_pos_c;
 			map_txt >> char_pos_r;
-			// wprintw(win1, "%d, %d, %d, %d", ROWS_AUTO, COLS_AUTO,char_pos_r,char_pos_l);
+			// wprintw(win1, "%d, %d, %d, %d", ROWS_AUTO, COLS_AUTO,char_pos_r,char_pos_c);
 			int map_input[ROWS_AUTO][COLS_AUTO];
 			int box_number = 0;
 			for(int i=0; i<ROWS_AUTO; i++)
@@ -315,9 +315,9 @@ int main()
 				}
 			}
 			// wprintw(win1, "%d ", box_number); // box가 몇개 존재하는지
-			Algo algo((int*)(map_input));
+			Algo algo((int*)(map_input), char_pos_r, char_pos_c);
 			auto_now:
-			Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_l);
+			Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_c);
 			pushBoxGame.initMap((int*)(map_input), ROWS_AUTO, COLS_AUTO);
 			Point d(0,0);
 
@@ -379,8 +379,10 @@ int main()
 				
 				// //사용자 입력 받기
 				int ch;
-				usleep( 1000 * 1000 );
-				char direction = algo.Direction((int*)(map_input));
+				char_pos_r = pushBoxGame.point.r;
+				char_pos_c = pushBoxGame.point.c;
+				usleep( 1000 * 100 );
+				char direction = algo.Direction((int*)(map_input), char_pos_r, char_pos_c);
 				if(direction == 'w') ch = KEY_UP;
 				else if(direction == 's') ch = KEY_DOWN;
 				else if(direction == 'a') ch = KEY_LEFT;
@@ -436,6 +438,8 @@ int main()
 					wbkgd(win1, COLOR_PAIR(1));
 					wattron(win1,COLOR_PAIR(1));
 					wrefresh(win1);
+					char_pos_r = pushBoxGame.resetPoint.r;
+					char_pos_c = pushBoxGame.resetPoint.c;
 					goto auto_now;
 				}
 				else if (ch==KEY_F(10)){//F10을 누르면
