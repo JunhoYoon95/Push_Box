@@ -315,7 +315,7 @@ int main()
 				}
 			}
 			// wprintw(win1, "%d ", box_number); // box가 몇개 존재하는지
-			Algo algo((int*)(map_input), char_pos_r, char_pos_c);
+			Algo algo((int*)(map_input), char_pos_r, char_pos_c, ROWS_AUTO, COLS_AUTO);
 			auto_now:
 			Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_c);
 			pushBoxGame.initMap((int*)(map_input), ROWS_AUTO, COLS_AUTO);
