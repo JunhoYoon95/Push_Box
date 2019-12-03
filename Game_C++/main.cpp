@@ -39,7 +39,9 @@ int main()
 
 	printw("Choose the stage\n");
 	printw("if you want to go AUTO please push the button [left]\n");
+	printw("자동으로 게임을 돌리고 싶다면 [왼쪽]키를 눌러주세요\n");
 	printw("if you want to go MANUAL please push the button [right]\n");
+	printw("수동으로 게임을 돌리고 싶다면 [오른쪽]키를 눌러주세요\n");
 
 	refresh();
 
@@ -71,14 +73,11 @@ int main()
 	cbreak();
 	keypad(stdscr, TRUE);
 	noecho(); //입력한 값을 보이지 않도록
-
-	printw("F5 : next map ###################\n");
-	printw("F3 : reset map ##################\n");
-	printw("F10 : quit ######################\n");
 	
 	refresh();
 	if (choose==KEY_LEFT){
 		mod = 0;
+		printw("###############<AUTO>############\n");
 		goto AUTO;
 	}
 	else if (choose==KEY_RIGHT){
@@ -89,6 +88,9 @@ int main()
 	MANUAL:
 	if(mod == 1)
 	{
+		printw("F5 : next map ###################\n");
+		printw("F3 : reset map ##################\n");
+		printw("F10 : quit ######################\n");
 		win1 = newwin(20,35,6,0); //행:20 열:35
 		curs_set(0);//커서 가렸어요
 		wbkgd(win1, COLOR_PAIR(1));
@@ -266,10 +268,12 @@ int main()
 		quit:
 		if (lv==5){
 			wprintw(win1,"GAME FINISHED\n");
+			wprintw(win1,"게임에서 나가고 싶으면 아무 키나 눌러 주세요\n");
 			wrefresh(win1);
 		}
 		else{
 			wprintw(win1,"GAME OVER\n");
+			wprintw(win1,"게임에서 나가고 싶으면 아무 키나 눌러 주세요\n");
 			wrefresh(win1);
 		}
 		wattroff(win1,COLOR_PAIR(1));
@@ -282,24 +286,14 @@ int main()
 
 	AUTO:
 	if(mod == 0)
-	{
-		printw("###############<AUTO>############\n");
-		
+	{	
 		ifstream map_txt;
-		map_txt.open("map_info.txt");
-		int auto_lv;
+		map_txt.open("input.txt");
 		int ROWS_AUTO, COLS_AUTO, char_pos_c, char_pos_r;
-		// int map_input[ROWS][COLS];
-		map_txt >> auto_lv;
-		// wprintw(win1, "%d ", auto_lv);
 
-		for(lv=0; lv<auto_lv; lv++)
-		{
 			auto_next:
 			map_txt >> ROWS_AUTO;
 			map_txt >> COLS_AUTO;
-			map_txt >> char_pos_c;
-			map_txt >> char_pos_r;
 			// wprintw(win1, "%d, %d, %d, %d", ROWS_AUTO, COLS_AUTO,char_pos_r,char_pos_c);
 			int map_input[ROWS_AUTO][COLS_AUTO];
 			int box_number = 0;
@@ -309,13 +303,19 @@ int main()
 				{
 					int input;
 					map_txt >> input;
-					if( input == 2) box_number++;
+					if(input == 2) box_number++;
+					if(input == 5) {
+						char_pos_c = j;
+						char_pos_r = i;
+						input = 0;
+					}
 					// wprintw(win1, "%d ", input); //제대로 input 되는지 확인
 					map_input[i][j] = input;
 				}
 			}
 			// wprintw(win1, "%d ", box_number); // box가 몇개 존재하는지
 			Algo algo((int*)(map_input), char_pos_r, char_pos_c, ROWS_AUTO, COLS_AUTO);
+			// Algo algo((int*)(map_input), char_pos_r, char_pos_c);
 			auto_now:
 			Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_c);
 			pushBoxGame.initMap((int*)(map_input), ROWS_AUTO, COLS_AUTO);
@@ -387,6 +387,7 @@ int main()
 				else if(direction == 's') ch = KEY_DOWN;
 				else if(direction == 'a') ch = KEY_LEFT;
 				else if(direction == 'd') ch = KEY_RIGHT;
+				else if(direction == 'q') ch = KEY_F(5);
 				else ch = KEY_F(3);
 
 				if (ch==KEY_LEFT){
@@ -412,26 +413,6 @@ int main()
 					wbkgd(win1, COLOR_PAIR(1));
 					wattron(win1,COLOR_PAIR(1));
 					d.set(1, 0);
-				}
-				else if (ch==KEY_F(5)){//F5키를 누르면 else if
-					if (lv == auto_lv-1)
-					{
-						win1 = newwin(20,35,6,0);
-						wbkgd(win1, COLOR_PAIR(1));
-						wattron(win1,COLOR_PAIR(1));
-						wprintw(win1,"Level. %d is last level\n\n",lv+1);
-						continue;
-						wrefresh(win1);
-					}
-					else
-					{
-						win1 = newwin(20,35,6,0);
-						wbkgd(win1, COLOR_PAIR(1));
-						wattron(win1,COLOR_PAIR(1));
-						lv++;
-						goto auto_next;
-						wrefresh(win1);
-					}
 				}
 				else if (ch==KEY_F(3)){
 					win1 = newwin(20,35,6,0);
@@ -477,9 +458,12 @@ int main()
 
 				wrefresh(win1);
 			}
-			wprintw(win1,"Map Level. %d FINISHED!\n",lv+1);
+			wprintw(win1,"step : %d\n", pushBoxGame.step);
+			wprintw(win1,"push : %d\n", pushBoxGame.push);
+			wprintw(win1,"remaining box : %d\n",pushBoxGame.remainingBox());
+			wprintw(win1,"\n");
 			wrefresh(win1);
-			}
+			
 			auto_quit:
 			if (lv==5){
 				wprintw(win1,"GAME FINISHED\n");
@@ -487,6 +471,7 @@ int main()
 			}
 			else{
 				wprintw(win1,"GAME OVER\n");
+				wprintw(win1,"게임에서 나가고 싶으면 아무 키나 눌러 주세요\n");
 				wrefresh(win1);
 			}
 
