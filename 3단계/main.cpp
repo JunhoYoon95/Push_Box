@@ -111,6 +111,11 @@ int main()
 			Point d(0,0);
 
 			while (!(pushBoxGame.isFinished())){
+				wprintw(win1, "step : %d \n", pushBoxGame.step);
+				wprintw(win1, "push : %d \n", pushBoxGame.push);
+				wprintw(win1, "box :  %d \n", pushBoxGame.remainingBox());
+				wprintw(win1, "\n");
+				wrefresh(win1);
 				//게임 상태 출력
 				for (int r=0; r<ROWS; r++){
 					for (int c=0; c<COLS; c++){
