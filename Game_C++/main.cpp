@@ -127,15 +127,15 @@ int main()
 							continue;
 						}
 
-						// 박스가 있으면 박스 출력
-						for (int i=0; i<pushBoxGame.numOfBox; i++){
-							if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
-								wattron(win1, COLOR_PAIR(3)); //add
-								wprintw(win1,"\u26BF ");//박스
-								b = true;
-								break;
-							}
-						}
+						// // 박스가 있으면 박스 출력
+						// for (int i=0; i<pushBoxGame.
+						// 	if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
+						// 		wattron(win1, COLOR_PAIR(3)); //add
+						// 		wprintw(win1,"\u26BF ");//박스
+						// 		b = true;
+						// 		break;
+						// 	}
+						// }
 						// 맵 출력
 						if (!b)
 						{
@@ -294,7 +294,6 @@ int main()
 			auto_next:
 			map_txt >> ROWS_AUTO;
 			map_txt >> COLS_AUTO;
-			// wprintw(win1, "%d, %d, %d, %d", ROWS_AUTO, COLS_AUTO,char_pos_r,char_pos_c);
 			int map_input[ROWS_AUTO][COLS_AUTO];
 			int box_number = 0;
 			for(int i=0; i<ROWS_AUTO; i++)
@@ -339,15 +338,6 @@ int main()
 							continue;
 						}
 
-						// 키가 있으면 키 출력
-						for (int i=0; i<pushBoxGame.numOfBox; i++){
-							if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
-								wattron(win1, COLOR_PAIR(3)); //add
-								wprintw(win1,"\u26BF ");//박스
-								b = true;
-								break;
-							}
-						}
 						// 맵 출력
 						if (!b)
 						{
@@ -361,11 +351,11 @@ int main()
 							}
 							if(pushBoxGame.map[r][c]==2){
 								wattron(win1, COLOR_PAIR(3)); //add
-								wprintw(win1,"\u26BF ");//목적지
+								wprintw(win1,"\u26BF ");//박스
 							}
 							if(pushBoxGame.map[r][c]==3){
 								wattron(win1, COLOR_PAIR(2)); //add
-								wprintw(win1,"\u26F6 ");//키
+								wprintw(win1,"\u26F6 ");//목적지
 							}
 							if(pushBoxGame.map[r][c]==4){
 								wattron(win1, COLOR_PAIR(1)); //add
@@ -382,7 +372,7 @@ int main()
 				char_pos_r = pushBoxGame.point.r;
 				char_pos_c = pushBoxGame.point.c;
 				usleep( 1000 * 100 );
-				char direction = algo.Direction((int*)(map_input), char_pos_r, char_pos_c);
+				char direction = algo.Direction((int*)(pushBoxGame.map), char_pos_r, char_pos_c);
 				if(direction == 'w') ch = KEY_UP;
 				else if(direction == 's') ch = KEY_DOWN;
 				else if(direction == 'a') ch = KEY_LEFT;
@@ -428,30 +418,28 @@ int main()
 				}
 
 				if (pushBoxGame.isWall(d)) {
-					// wprintw(win1,"can not move character\n");
+					// 벽인지 검사
+					// true로 받으면 벽이나 바깥이다
 					wrefresh(win1);
-
 				}
 				//이동할 위치에 박스가 있으면
 				else if (pushBoxGame.isBox(d)) {
-					//박스를 이동할 수 있으면
+					// true시 박스가 존재
 					if (pushBoxGame.canMoveBox(d)){
-						//박스와 캐릭터 이동
+						// 박스 움직일 수 있는지 검사 
+						// 박스와 캐릭터 이동
 						pushBoxGame.moveBox(d);
 						pushBoxGame.moveCharacter(d);
-						// wprintw(win1,"box moved\n");
 						wrefresh(win1);
 					}
 					else
 					{
-						// wprintw(win1,"can not move box\n");
 						wrefresh(win1);
 					}
 				}
 				else
 				{ //벽도 박스도 아니면
 					//캐릭터 이동
-					// wprintw(win1,"character moved\n");
 					pushBoxGame.moveCharacter(d);
 					wrefresh(win1);
 				}
