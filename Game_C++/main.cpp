@@ -75,7 +75,6 @@ int main()
 	cbreak();
 	keypad(stdscr, TRUE);
 	noecho(); //입력한 값을 보이지 않도록
-	
 	refresh();
 	if (choose==KEY_LEFT){
 		mod = 0;
@@ -321,12 +320,15 @@ int main()
 					map_input[i][COLS_AUTO-j-1] = num;
 				}
 			}
-			Algo algo((int*)(map_input), char_pos_r, char_pos_c, ROWS_AUTO, COLS_AUTO);
+			// Algo algo((int*)(map_input), char_pos_r, char_pos_c, ROWS_AUTO, COLS_AUTO);
 			auto_now:
 			Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_c);
 			pushBoxGame.initMap((int*)(map_input), ROWS_AUTO, COLS_AUTO);
 			Point d(0,0);
-
+		
+			wprintw(win1, "지금 경로를 찾는 중입니다 조금만 기달려 주세요");
+			Algo algo(pushBoxGame);
+			
 			while (!(pushBoxGame.isFinished())){
 				//게임 상태 출력
 				char direction = algo.Direction();
