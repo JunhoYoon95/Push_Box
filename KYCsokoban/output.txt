@@ -1,0 +1,29 @@
+3.5
+###########
+#XXXXXXXXX#
+#X       X#
+#X . . . X#
+#X   $   X#
+#X   $   X#
+#X   $   X#
+#X       X#
+#X   @   X#
+#XXXXXXXXX#
+###########
+ground size: 11
+Number of nodes generated : 484062
+Number of nodes containing states that were generated previously : 202889
+Number of nodes on the fringe when termination occurs : 124567
+Number of nodes on the explored list when termination occurs : 47166
+Run time of the algorithm : 86.912s
+Solution:
+u, l, u, r, r, d, r, u, u, u, d, l, l, u, d, l, d, l, u, u
+4
+Number of nodes generated : 566
+Number of nodes containing states that were generated previously : 279
+Number of nodes on the fringe when termination occurs : 87
+Number of nodes on the explored list when termination occurs : 230
+Run time of the algorithm : 0.013s
+Solution:
+r, r, r, r, u, u, l, l, u, l, u, l, l, d, d, r, u, u, d, d, r, l, l, l, u, u, d, r, r, r, r, r, d, r, d, d, l, l, u, u, u, u
+5
