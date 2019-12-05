@@ -1,3 +1,5 @@
+#ifndef GAME
+#define GAME
 #include "Point.h"
 #include <vector>
 using namespace std;
@@ -31,3 +33,4 @@ class Game {
 	bool isFinished();
 
 };
+#endif
