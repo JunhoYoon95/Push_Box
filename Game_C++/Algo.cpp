@@ -2,11 +2,11 @@
 #include <iostream>
 using namespace std;
 
-Algo::Algo(int *result_map, const int pos_row, const int pos_col, const int row, const int col)
+Algo::Algo(int *result_map, const int pos_row, const int pos_col, const int ROWS_AUTO, const int COLS_AUTO)
 {
-    for(int i=0; i<8; i++)
+    for(int i=0; i<ROWS_AUTO; i++)
     {
-        for(int j=0; j<8; j++)
+        for(int j=0; j<COLS_AUTO; j++)
         {
             int m =*(result_map+(i*8+j));
             map[i][j] = m;
@@ -15,24 +15,10 @@ Algo::Algo(int *result_map, const int pos_row, const int pos_col, const int row,
 
     char_pos[0] = pos_row;
     char_pos[1] = pos_col;
-    map_row = row;
-    map_col = col;
 }
 
-char Algo::Direction(int *result_map, const int pos_row, const int pos_col)
+char Algo::Direction()
 {
-    for(int i=0; i<8; i++)
-    {
-        for(int j=0; j<8; j++)
-        {
-            int m =*(result_map+(i*8+j));
-            map[i][j] = m;
-        }
-    }
-    if(index == 16) index = -1;
     index ++;
-    char_pos[0] = pos_row;
-    char_pos[1] = pos_col;
-
-    return stage[index];
+    return direction[index];
 }
