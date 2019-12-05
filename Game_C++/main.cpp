@@ -3,9 +3,11 @@
 #include "Algo.h"
 #include <iostream>
 #include <ncurses.h>
+#include <math.h>
 #include <clocale>
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <stdio.h>
 #include <unistd.h>
 using namespace std;
@@ -127,15 +129,16 @@ int main()
 							continue;
 						}
 
-						// // 박스가 있으면 박스 출력
-						// for (int i=0; i<pushBoxGame.
-						// 	if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
-						// 		wattron(win1, COLOR_PAIR(3)); //add
-						// 		wprintw(win1,"\u26BF ");//박스
-						// 		b = true;
-						// 		break;
-						// 	}
-						// }
+						// 박스가 있으면 박스 출력
+						for (int i=0; i<pushBoxGame.numOfBox; i++){
+							if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
+								wattron(win1, COLOR_PAIR(3)); //add
+								wprintw(win1,"\u26BF ");//박스
+								b = true;
+								break;
+							}
+						}
+
 						// 맵 출력
 						if (!b)
 						{
@@ -287,34 +290,38 @@ int main()
 	AUTO:
 	if(mod == 0)
 	{	
+		int ROWS_AUTO, COLS_AUTO, char_pos_c, char_pos_r;
 		ifstream map_txt;
 		map_txt.open("input.txt");
-		int ROWS_AUTO, COLS_AUTO, char_pos_c, char_pos_r;
+		int getLine;
+		map_txt >> getLine;
+		ROWS_AUTO = getLine/10;
+		COLS_AUTO = getLine%10;
 
 			auto_next:
-			map_txt >> ROWS_AUTO;
-			map_txt >> COLS_AUTO;
 			int map_input[ROWS_AUTO][COLS_AUTO];
 			int box_number = 0;
 			for(int i=0; i<ROWS_AUTO; i++)
 			{
-				for(int j=0; j<COLS_AUTO; j++)
+				int input;
+				map_txt >> input;
+				for(int j=COLS_AUTO-1; j >= 0; j--)
 				{
-					int input;
-					map_txt >> input;
-					if(input == 2) box_number++;
-					if(input == 5) {
-						char_pos_c = j;
+					int tens = pow(10, j);
+					int num = input/tens;
+					input = input%tens;
+
+					if(num == 2) box_number++;
+					if(num == 5) {
+						char_pos_c = COLS_AUTO-j-1;
 						char_pos_r = i;
-						input = 0;
+						num = 0;
 					}
-					// wprintw(win1, "%d ", input); //제대로 input 되는지 확인
-					map_input[i][j] = input;
+					// 맵 정보를 받아 맵을 받는다
+					map_input[i][COLS_AUTO-j-1] = num;
 				}
 			}
-			// wprintw(win1, "%d ", box_number); // box가 몇개 존재하는지
 			Algo algo((int*)(map_input), char_pos_r, char_pos_c, ROWS_AUTO, COLS_AUTO);
-			// Algo algo((int*)(map_input), char_pos_r, char_pos_c);
 			auto_now:
 			Game pushBoxGame(ROWS_AUTO, COLS_AUTO, box_number, char_pos_r, char_pos_c);
 			pushBoxGame.initMap((int*)(map_input), ROWS_AUTO, COLS_AUTO);
@@ -322,6 +329,7 @@ int main()
 
 			while (!(pushBoxGame.isFinished())){
 				//게임 상태 출력
+				char direction = algo.Direction();
 				wprintw(win1,"step : %d\n", pushBoxGame.step);
 				wprintw(win1,"push : %d\n", pushBoxGame.push);
 				wprintw(win1,"remaining box : %d\n",pushBoxGame.remainingBox());
@@ -336,6 +344,16 @@ int main()
 							wattron(win1, COLOR_PAIR(1)); //add
 							wprintw(win1,"\u263B ");//캐릭터 스마일 원.
 							continue;
+						}
+
+						// 박스가 있으면 박스 출력
+						for (int i=0; i<pushBoxGame.numOfBox; i++){
+							if (pushBoxGame.box[i].r==r&&pushBoxGame.box[i].c==c) {
+								wattron(win1, COLOR_PAIR(3)); //add
+								wprintw(win1,"\u26BF ");//박스
+								b = true;
+								break;
+							}
 						}
 
 						// 맵 출력
@@ -372,7 +390,7 @@ int main()
 				char_pos_r = pushBoxGame.point.r;
 				char_pos_c = pushBoxGame.point.c;
 				usleep( 1000 * 100 );
-				char direction = algo.Direction((int*)(pushBoxGame.map), char_pos_r, char_pos_c);
+				// char direction = algo.Direction();
 				if(direction == 'w') ch = KEY_UP;
 				else if(direction == 's') ch = KEY_DOWN;
 				else if(direction == 'a') ch = KEY_LEFT;
