@@ -30,7 +30,10 @@ void Game::initMap(int* arr, int r, int c)
 	for (int i=0; i<r; i++){
 		for (int j =0; j<c; j++){
 			int m = *(arr+(i*c+j));
-			map[i][j] = m;
+			if (m == BOX) {
+				box.push_back(Point(i,j));
+				map[i][j] = 0;
+			}else map[i][j] = m;
 		}
 	}
 }
@@ -57,12 +60,8 @@ bool Game::isWall(Point d)
 
 bool Game::isBox(Point d)
 {
-	for (int i=0; i<8; i++){
-		for(int j=0; j<8; j++){
-			int row = point.r+d.r;
-			int col = point.c+d.c;
-			if ( map[row][col] == 2) return true;
-		}
+	for (int i=0; i<numOfBox; i++){
+		if (box[i]==point+d) return true;
 	}
 	return false;
 }
@@ -78,22 +77,20 @@ bool Game::canMoveBox(Point d)
 
 int Game::remainingBox()
 {
-	return numOfBox;
+	int cnt = 0;
+	vector<Point>::iterator it;
+	for (it=box.begin(); it!=box.end(); it++){
+		if (map[(*it).r][(*it).c] != GOAL) cnt++;
+	}
+	return cnt;
 }
 
 
 void Game::moveBox(Point d)
 {
 	int i=0;
-	int row = point.r + d.r;
-	int box_row = point.r + d.r + d.r;
-	int col = point.c + d.c;
-	int box_col = point.c + d.c + d.c;
-	map[row][col] = 0;
-	if(map[box_row][box_col] == 3){
-		numOfBox --;
-	}
-	map[box_row][box_col] = 2;
+	while (!(box[i]==point+d)) i++;
+	box[i] += d;
 	push++;
 }
 
