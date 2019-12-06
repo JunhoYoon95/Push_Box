@@ -1,11 +1,31 @@
 #include "sokoban.h"
 #define distance(a, b) (fabs(a.x - b.x) + fabs(a.y - b.y))
 
+
+
+
+/**
+ * mark all places that are reachable
+ */
+
+ /**
+  * detecting simple deadlocks
+  */
+
+void showGround(vector<string> &ground)
+{
+	for (int i = 0; i < ground.size(); ++i) {
+		cout << ground[i] << endl;
+	}
+}
+
+
+
 struct AState {
 	int gcost;
 	int hcost;
 	State state;
-	AState() {gcost = 0;}
+	AState() { gcost = 0; }
 	bool operator < (const AState &b) const
 	{
 		return (gcost + hcost) > (b.gcost + b.hcost);
@@ -65,7 +85,8 @@ void AStar(const vector<string> &ground)
 				evaluate(goal, now);
 				result = now;
 				goto end;
-			} else if (s) {
+			}
+			else if (s) {
 				if (rec.count(now.state) && rec[now.state] <= now.gcost) {
 					stat.bnodes++;
 					continue;
@@ -86,4 +107,5 @@ end:
 	outputStat(stat);
 	outputSolution1(stateVector, result.state);
 }
+
 

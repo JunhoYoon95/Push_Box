@@ -9,7 +9,7 @@
 #include <time.h>
 #include <tr1/unordered_set>
 #include <tr1/unordered_map>
-
+#include <fstream>
 using namespace std;
 
 

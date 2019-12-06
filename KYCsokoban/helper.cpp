@@ -50,8 +50,8 @@ int horizontalFreeze(int i, vector<int> &hfreeze, vector<int> &vfreeze, State &n
 	int x = now.box[i].x;
 	int y = now.box[i].y;
 	// if left side or right side is wall
-	if ( (outOfBoundary(ground, Position(x, y - 1)) || isWall(ground[x][y - 1]) ) ||
-		 (outOfBoundary(ground, Position(x, y + 1)) || isWall(ground[x][y + 1]) ) ) {
+	if ((outOfBoundary(ground, Position(x, y - 1)) || isWall(ground[x][y - 1])) ||
+		(outOfBoundary(ground, Position(x, y + 1)) || isWall(ground[x][y + 1]))) {
 		return hfreeze[i] = 0;
 	}
 	// if left side and right side are dead squares
@@ -72,8 +72,8 @@ int horizontalFreeze(int i, vector<int> &hfreeze, vector<int> &vfreeze, State &n
 	b = isBox2(now, x, y + 1);
 	if (b != -1) {
 		if (x == 6 && y == 11)
-		if (vfreeze[b] == 0 || vfreeze[b] == -1)
-			return hfreeze[i] = 0;
+			if (vfreeze[b] == 0 || vfreeze[b] == -1)
+				return hfreeze[i] = 0;
 		if (vfreeze[b] == -2) {
 			if (verticalFreeze(b, hfreeze, vfreeze, now, ground) == 0) {
 				return hfreeze[i] = 0;
@@ -91,8 +91,8 @@ int verticalFreeze(int i, vector<int> &hfreeze, vector<int> &vfreeze, State &now
 	int x = now.box[i].x;
 	int y = now.box[i].y;
 	// if left side or right side is wall
-	if ( (outOfBoundary(ground, Position(x - 1, y)) || isWall(ground[x - 1][y]) ) ||
-		 (outOfBoundary(ground, Position(x + 1, y)) || isWall(ground[x + 1][y]) ) ) {
+	if ((outOfBoundary(ground, Position(x - 1, y)) || isWall(ground[x - 1][y])) ||
+		(outOfBoundary(ground, Position(x + 1, y)) || isWall(ground[x + 1][y]))) {
 		return vfreeze[i] = 0;
 	}
 	// if left side and right side are dead squares
@@ -100,7 +100,7 @@ int verticalFreeze(int i, vector<int> &hfreeze, vector<int> &vfreeze, State &now
 		return vfreeze[i] = 0;
 	}
 	// if left side or right side is box?
-	int b = isBox2(now, x - 1, y);	
+	int b = isBox2(now, x - 1, y);
 	if (b != -1) {
 		if (hfreeze[b] == 0 || hfreeze[b] == -1) {
 			return vfreeze[i] = 0;
@@ -221,8 +221,8 @@ int validState(int dx, int dy, State &now, const vector<string> &ground)
  */
 void outputSolution1(vector<State> &stateVector, State &s)
 {
-	cout<<"Solution:";
-	
+	cout << "Solution:";
+
 	if (s.currentStateNum == -1 || s.previousStateNum == -1)
 		return;
 
@@ -234,17 +234,17 @@ void outputSolution1(vector<State> &stateVector, State &s)
 		statenum = stateVector[statenum].previousStateNum;
 	}
 
-/*
-	cout<<move.top();
-	move.pop()
+	/*
+		cout<<move.top();
+		move.pop()
 
-	while (!move.empty()) {
+		while (!move.empty()) {
 
-		cout<<", "<<move.top();
-		move.pop();
-	}
-	cout<<endl;
-*/
+			cout<<", "<<move.top();
+			move.pop();
+		}
+		cout<<endl;
+	*/
 }
 
 
@@ -253,30 +253,30 @@ void outputSolution1(vector<State> &stateVector, State &s)
  */
 void outputSolution2(vector<State> &stateVector, State &s)
 {
-        cout<<"Solution:";
-        
-        if (s.currentStateNum == -1 || s.previousStateNum == -1)
-                return;
+	cout << "Solution:";
+
+	if (s.currentStateNum == -1 || s.previousStateNum == -1)
+		return;
 
 
-        res_gfs.push(s.move);
-        int statenum = s.previousStateNum;
-        while (statenum) {
-                res_gfs.push(stateVector[statenum].move);
-                statenum = stateVector[statenum].previousStateNum;
-        }
+	res_gfs.push(s.move);
+	int statenum = s.previousStateNum;
+	while (statenum) {
+		res_gfs.push(stateVector[statenum].move);
+		statenum = stateVector[statenum].previousStateNum;
+	}
 
-/*
-        cout<<move.top();
-        move.pop()
+	/*
+			cout<<move.top();
+			move.pop()
 
-        while (!move.empty()) {
+			while (!move.empty()) {
 
-                cout<<", "<<move.top();
-                move.pop();
-        }
-        cout<<endl;
-*/
+					cout<<", "<<move.top();
+					move.pop();
+			}
+			cout<<endl;
+	*/
 }
 
 
@@ -286,11 +286,11 @@ void outputSolution2(vector<State> &stateVector, State &s)
 
 void outputStat(Statistics &stat)
 {
-//	printf("Number of nodes generated : %d\n", stat.anodes);
-//	printf("Number of nodes containing states that were generated previously : %d\n", stat.bnodes);
-//	printf("Number of nodes on the fringe when termination occurs : %d\n", stat.cnodes);
-//	printf("Number of nodes on the explored list when termination occurs : %d\n", stat.dnodes);
-//	printf("Run time of the algorithm : %.3lfs\n", stat.runtime);
+	//	printf("Number of nodes generated : %d\n", stat.anodes);
+	//	printf("Number of nodes containing states that were generated previously : %d\n", stat.bnodes);
+	//	printf("Number of nodes on the fringe when termination occurs : %d\n", stat.cnodes);
+	//	printf("Number of nodes on the explored list when termination occurs : %d\n", stat.dnodes);
+	//	printf("Run time of the algorithm : %.3lfs\n", stat.runtime);
 }
 
 /**

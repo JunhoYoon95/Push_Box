@@ -5,6 +5,7 @@ SOURCES = Algo.cpp \
 	 GFS.cpp \
 AStar.cpp \
 helper.cpp \
+main.cpp \
 
 all:
 	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES) -lncursesw
