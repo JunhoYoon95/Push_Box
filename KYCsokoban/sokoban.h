@@ -14,7 +14,7 @@ using namespace std;
 
 
 const int direction[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-const char step[4] = {'s', 'w', 'b', 'a'};
+const char step[4] = {'s', 'w', 'd', 'a'};
 
 
 

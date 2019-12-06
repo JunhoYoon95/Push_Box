@@ -1,20 +1,15 @@
 #include "Algo.h"
 #include <iostream>
-#include<vector>
+#include <vector>
 #include "sokoban.h"
-#include<fstream>
-#include<cstring>
-
-using namespace std;
+#include <fstream>
+#include <cstring>
 
 extern stack<char> res_astar;
 extern stack<char> res_gfs;
 using namespace std;
 extern void AStar(const vector<string> &ground);
 extern void GFS(const vector<string> &ground);
-
-
-
 
 void getInput(vector<string> &ground)
 {
@@ -28,43 +23,22 @@ void getInput(vector<string> &ground)
 
 	for (int i = 0; i < n; ++i) {
 		getline(fs, t);
-
-
-
 		int len = t.size();
 		//    cout <<"len: "<< len << endl;
 		for (int i = 0; i < len; i++) {
-
-
-			if (t[i] == '0') {
-				//  cout<<"ok";             
+			if (t[i] == '0') {     
 				t[i] = ' ';
 			}
 			else if (t[i] == '4') {
 				t[i] = '1';
-				//cout<<"Fase";           
-
-
 			}
-
-
 		}
-
-
-
-
-
 		ground.push_back(t);
-
-
-
-
 	}
-	//	cout<<"input success"<<endl;
-
 	fs.close();
 
 }
+
 void pullAndMark(vector<string> &mark, Position b, Position p)
 {
 	if (outOfBoundary(mark, p) || outOfBoundary(mark, b)) {
@@ -81,9 +55,6 @@ void pullAndMark(vector<string> &mark, Position b, Position p)
 		pullAndMark(mark, newbox, newperson);
 	}
 }
-
-
-
 
  /**
   * detecting simple deadlocks
@@ -109,7 +80,6 @@ void detectDeadSquare(vector<string> &ground)
 }
 
 
-
 void AStar_execute()
 {
 
@@ -118,7 +88,7 @@ void AStar_execute()
 	getInput(ground);
 
 	detectDeadSquare(ground);
-	cout << "AStar" << endl;
+	// cout << "AStar" << endl;
 	AStar(ground);
 
 	/*
@@ -157,12 +127,9 @@ void GFS_execute() {
 }
 
 
-//Algo��ü�� �����ڿ��� ��ü ������ ���ÿ� AStar_solution ���� ������ ASTAR �Լ� ���� ��� ASTAR solution�� �����ϳ�.
-Algo::Algo()
+Algo::Algo(Game pushBoxGame)
 {
-	//ASTAR����.ASTAR���� ��� res_astar ���� solution�� �����Ѵ�. �׸��� �� ����� astar Ŭ���� ���� AStar_solution ���Ϳ� �ش� ����Ű�� �ִ´�.
-	AStar_execute();
-
+    AStar_execute();
 
 	while (!res_astar.empty())
 	{
@@ -174,7 +141,6 @@ Algo::Algo()
 
 }
 
-//���Ƿ� ���� �Լ���, ������ ȣ�� ��� SOLUTION VECTORȮ���Ѵ�.
 void Algo::check()
 
 {
@@ -184,4 +150,10 @@ void Algo::check()
 		cout << this->AStar_solution[i] << endl;
 	}
 
+}
+
+char Algo::Direction()
+{
+    index ++;
+    return AStar_solution[index];
 }

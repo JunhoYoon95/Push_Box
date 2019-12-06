@@ -1,11 +1,12 @@
 CC = g++
 CFLAGS = -std=c++14
 TARGET = push_game
-SOURCES = Algo.cpp \
-	 GFS.cpp \
-AStar.cpp \
-helper.cpp \
-main.cpp \
+SOURCES = main.cpp \
+          Algo.cpp \
+		  Game.cpp \
+		  AStar.cpp \
+		  GFS.cpp \
+		  helper.cpp \
 
 all:
 	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES) -lncursesw
